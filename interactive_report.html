@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Price of Freedom - Interactive Essay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #FDFBF7;
+            color: #2D3748;
+        }
+
+        h1, h2, h3, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+            visibility: visible;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#9B2C2C] selection:text-white">
+
+    <!-- Chosen Palette: Warm neutral background (#FDFBF7), deep slate text (#2D3748), rich maroon accents (#9B2C2C), soft gold secondary (#B7791F) -->
+    
+    <!-- Application Structure Plan: The SPA uses a narrative, scrolling storytelling structure. It begins with a high-impact immersive hero section posing the core philosophical questions. As the user scrolls, the content is divided into logical, thematic sections (The Debt, The Conviction, The Choice). This avoids a massive wall of text and encourages paced reading. An interactive tab system is used for Bismil's conviction to separate the poetry from the philosophical breakdown. A conceptual Chart.js visualization synthesizes the core message into "Pillars of Worthiness," transforming abstract text into a memorable visual model. Finally, the "How We Begin" steps are presented as interactive cards. -->
+    
+    <!-- Visualization & Content Choices: 
+    1. Opening Hooks -> Prominent blockquotes with fade-in animation -> Goal: Immediate emotional engagement.
+    2. Ram Prasad Bismil Section -> Interactive Tabs -> Goal: Separate the emotional poetry from the analytical breakdown for better digestion without overwhelming the user.
+    3. The Call for Worthiness -> Chart.js Donut Chart -> Goal: To visually summarize the abstract concept of "What makes a nation truly developed" into four equal pillars (Knowledge, Remembrance, Dignity, Truth). Library: Chart.js.
+    4. Actionable Steps -> Hover-effect interactive cards with Unicode icons -> Goal: Make the text-heavy recommendations feel like an actionable, explorable checklist. 
+    Confirming NO SVG or Mermaid JS is used. -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="fixed top-0 w-full bg-[#FDFBF7]/90 backdrop-blur-sm z-50 border-b border-gray-200 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <span class="text-xl font-bold serif-font text-[#9B2C2C]">Price of Freedom</span>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold text-gray-600">
+                <a href="#the-debt" class="hover:text-[#9B2C2C] transition">The Debt</a>
+                <a href="#the-conviction" class="hover:text-[#9B2C2C] transition">The Conviction</a>
+                <a href="#the-choice" class="hover:text-[#9B2C2C] transition">Our Worthiness</a>
+                <a href="#the-action" class="hover:text-[#9B2C2C] transition">How We Begin</a>
+                <a href="#further-reading" class="hover:text-[#9B2C2C] transition">Further Reading</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="min-h-screen flex items-center justify-center pt-16 px-4 bg-gradient-to-b from-[#FDFBF7] to-[#F3EFE6]">
+        <div class="max-w-4xl mx-auto text-center fade-in-section is-visible">
+            <h1 class="text-5xl md:text-7xl font-bold text-[#2D3748] leading-tight mb-8">
+                The Debt We <span class="text-[#9B2C2C]">Cannot Repay</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-12 serif-font italic max-w-2xl mx-auto">
+                Are we worthy of the freedom we inherited?
+            </p>
+            
+            <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg border-t-4 border-[#9B2C2C] text-left">
+                <p class="text-lg md:text-xl leading-relaxed mb-6 border-l-4 border-gray-300 pl-4">
+                    "Is your life worthy of another human being walking away from the comfort of home, the affection of family, and the peace of an ordinary life, only to stand in unforgiving conditions where death may arrive at any moment in the form of a single bullet?"
+                </p>
+                <p class="text-lg md:text-xl leading-relaxed border-l-4 border-gray-300 pl-4">
+                    "Is your freedom worthy of the ancestors who embraced suffering, imprisonment, and even death so that future generations could live with dignity rather than submission?"
+                </p>
+            </div>
+            
+            <a href="#the-debt" class="inline-block mt-12 animate-bounce">
+                <span class="text-3xl text-[#9B2C2C]">↓</span>
+            </a>
+        </div>
+    </header>
+
+    <section id="the-debt" class="py-24 px-4">
+        <div class="max-w-4xl mx-auto fade-in-section">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold mb-4 text-[#9B2C2C]">The Invisible Foundation</h2>
+                <p class="text-lg text-gray-600">This section explores the unseen sacrifices that form the bedrock of our modern comforts. It contrasts our daily peace with the harsh realities faced by those who guard it.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-lg leading-relaxed">
+                    <p>The truth is that <strong>we are all living in a debt that can never truly be repaid.</strong></p>
+                    <p>Our life is not ours; it stands upon the sacrifices of people most of us will never know personally. Soldiers guarding the borders through freezing nights, hostile terrain, and endless uncertainty do not know our names, our stories, or the lives we live.</p>
+                    <p>And they know that if they die in the line of duty, many of the people they protected may never even hear of them. Yet, they continue to stand there willingly.</p>
+                </div>
+                <div class="bg-[#F3EFE6] p-8 rounded-lg border border-[#E2D8C3]">
+                    <p class="text-xl serif-font italic text-[#9B2C2C] mb-4">"Every ordinary comfort we take for granted exists because somewhere, someone accepted extraordinary sacrifice."</p>
+                    <hr class="border-[#D4C5A9] my-4">
+                    <p class="text-base text-gray-700">Before them were our ancestors. Men and women who refused to surrender their self-respect, identity, and freedom even in the face of suffering and death. Most of them will never be remembered by history, yet because they stood firm, we stand free today.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="the-conviction" class="py-24 px-4 bg-[#2D3748] text-white">
+        <div class="max-w-4xl mx-auto fade-in-section">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold mb-4 text-[#E2D8C3]">Death as a Privilege</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto">Explore the profound mindset of Ram Prasad Bismil. Use the tabs below to transition between his immortal words and the philosophical analysis of his conviction.</p>
+            </div>
+
+            <div class="bg-[#1A202C] rounded-xl overflow-hidden shadow-2xl border border-gray-700">
+                <div class="flex border-b border-gray-700">
+                    <button class="flex-1 py-4 px-6 text-center font-semibold text-[#E2D8C3] bg-[#2D3748] transition" onclick="switchTab(event, 'poetry')">The Poetry</button>
+                    <button class="flex-1 py-4 px-6 text-center font-semibold text-gray-400 hover:text-[#E2D8C3] hover:bg-[#2D3748] transition" onclick="switchTab(event, 'analysis')">The Conviction</button>
+                </div>
+                
+                <div class="p-8 md:p-12 h-[350px] flex items-center justify-center">
+                    <div id="poetry" class="tab-content active text-center w-full">
+                        <p class="text-2xl md:text-4xl serif-font italic leading-relaxed text-[#FDFBF7]">
+                            "Sarfaroshi ki tamanna<br>ab hamare dil mein hai,<br>
+                            <span class="text-[#E2D8C3] text-xl md:text-3xl mt-4 block">Dekhna hai zor kitna<br>baazu-e-qatil mein hai,"</span>
+                        </p>
+                        <p class="mt-8 text-sm uppercase tracking-widest text-gray-400">— Ram Prasad Bismil</p>
+                    </div>
+
+                    <div id="analysis" class="tab-content w-full">
+                        <p class="text-lg leading-relaxed text-gray-300 mb-6">
+                            This is not merely poetry. It is the expression of a love for one's nation so profound that the fear of death itself becomes insignificant. Bismil was not asking others to mourn the possibility of his death. He had already accepted it.
+                        </p>
+                        <p class="text-lg leading-relaxed text-gray-300 border-l-4 border-[#9B2C2C] pl-4">
+                            In fact, he was saying something far more extraordinary. <em>If sacrificing my life for my motherland is what destiny demands, then I do not fear it—I desire it.</em> The question is no longer whether I possess the courage to die for my nation. That decision has already been made. The question, instead, is whether the oppressor possesses the strength to fulfill my deepest wish.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="the-choice" class="py-24 px-4">
+        <div class="max-w-5xl mx-auto fade-in-section">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4 text-[#9B2C2C]">Beyond Repayment: Worthiness</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">A nation does not progress merely through infrastructure. It progresses when its citizens understand the price of their freedom. The visualization below represents the four conceptual pillars that make a generation worthy of its inheritance.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-lg leading-relaxed order-2 lg:order-1">
+                    <h3 class="text-2xl font-bold serif-font mb-4">The Danger of Forgetting</h3>
+                    <p>To understand our ancestors is not merely to memorize dates and events. A civilization that forgets the sacrifices made for its survival slowly begins to lose the very spirit that once kept it alive.</p>
+                    <p class="font-semibold text-[#9B2C2C] bg-[#FDFBF7] p-4 rounded border-l-4 border-[#9B2C2C] shadow-sm">
+                        Because when people forget the courage of those who came before them, comfort slowly replaces gratitude, and entitlement replaces responsibility.
+                    </p>
+                    <p>There is nothing we can do that can truly equal such sacrifice. No slogan, ceremony, or temporary display of emotion can repay the lives willingly placed at risk. But perhaps repayment is not what is expected from us. <strong>Perhaps what is expected from us is worthiness.</strong></p>
+                    <p>Civilizations survive only when the generations that inherit freedom prove themselves worthy of preserving it.</p>
+                </div>
+                
+                <div class="order-1 lg:order-2 bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h4 class="text-center text-sm uppercase tracking-wide text-gray-500 mb-4">Pillars of a Developed Nation (Viksit Bharat)</h4>
+                    <div class="chart-container">
+                        <canvas id="worthinessChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">Interact with the chart to explore the elements of worthiness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="the-action" class="py-24 px-4 bg-[#F3EFE6]">
+        <div class="max-w-5xl mx-auto fade-in-section">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4 text-[#9B2C2C]">How We Begin</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Becoming worthy is not a passive state; it requires active choices. Here are four actionable steps to consciously reconnect with the history and civilization that shaped us.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow border-t-4 border-[#2D3748] group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">📖</div>
+                    <h3 class="text-xl font-bold mb-2">Read Beyond the Feed</h3>
+                    <p class="text-gray-600">Learn our history with sincerity by reading books, rather than depending entirely upon fragments of information from social media.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow border-t-4 border-[#9B2C2C] group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🏛️</div>
+                    <h3 class="text-xl font-bold mb-2">Walk Historical Grounds</h3>
+                    <p class="text-gray-600">Visit the historical places, forts, memorials, and battlefields across the country that silently carry the stories of those who came before us.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow border-t-4 border-[#B7791F] group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🛡️</div>
+                    <h3 class="text-xl font-bold mb-2">Uphold Their Dignity</h3>
+                    <p class="text-gray-600">Ensure that we never reduce our ancestors, freedom fighters, and soldiers to objects of mockery or ignorance.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow border-t-4 border-[#4A5568] group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">⚔️</div>
+                    <h3 class="text-xl font-bold mb-2">Arm Yourself With Truth</h3>
+                    <p class="text-gray-600">Educate ourselves enough that misinformation, distortion, or disrespect towards our nation and its history does not go unchallenged simply because we chose not to learn.</p>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center bg-[#2D3748] text-white p-10 rounded-xl shadow-2xl">
+                <p class="text-xl md:text-2xl font-light mb-6">Because people disconnected from their history eventually become disconnected from their responsibility towards the future.</p>
+                <p class="text-2xl md:text-3xl serif-font italic font-semibold text-[#E2D8C3]">Respect begins with remembrance.<br>Remembrance begins with knowledge.</p>
+                <p class="mt-8 text-lg font-bold tracking-wider uppercase text-gray-400">Perhaps that is how we take a step towards a Viksit Bharat.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="further-reading" class="py-24 px-4 bg-white border-t border-gray-200">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4 text-[#9B2C2C]">Further Reading</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">For readers who wish to understand more deeply the sacrifices, convictions, and courage that shaped our nation, the following books provide valuable perspectives:</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Book 1 -->
+                <a href="#" class="group relative bg-[#FDFBF7] rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col cursor-pointer block text-current no-underline">
+                    <div class="h-56 bg-gradient-to-br from-[#2D3748] to-[#1A202C] text-[#E2D8C3] flex items-center justify-center p-8 text-center border-b-4 border-[#9B2C2C] relative">
+                        <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity"></div>
+                        <h3 class="font-bold serif-font text-2xl leading-snug relative z-10">Bravehearts of Bharat</h3>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-[#9B2C2C] mb-3">Vikram Sampath</p>
+                            <p class="text-gray-600 leading-relaxed text-sm">A tribute to many of India's lesser-known heroes and freedom fighters whose sacrifices and contributions deserve wider recognition.</p>
+                        </div>
+                        <div class="mt-6 text-[#9B2C2C] font-semibold text-sm group-hover:underline">Explore Book &rarr;</div>
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="#" class="group relative bg-[#FDFBF7] rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col cursor-pointer block text-current no-underline">
+                    <div class="h-56 bg-gradient-to-br from-[#9B2C2C] to-[#742020] text-[#FDFBF7] flex items-center justify-center p-8 text-center border-b-4 border-[#B7791F] relative">
+                        <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity"></div>
+                        <h3 class="font-bold serif-font text-2xl leading-snug relative z-10">Autobiography of Ram Prasad Bismil</h3>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-[#9B2C2C] mb-3">Ram Prasad Bismil</p>
+                            <p class="text-gray-600 leading-relaxed text-sm">A firsthand account of the thoughts, convictions, and patriotism of one of India's most revered revolutionaries.</p>
+                        </div>
+                        <div class="mt-6 text-[#9B2C2C] font-semibold text-sm group-hover:underline">Explore Book &rarr;</div>
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="#" class="group relative bg-[#FDFBF7] rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col cursor-pointer block text-current no-underline">
+                    <div class="h-56 bg-gradient-to-br from-[#4A5568] to-[#2D3748] text-[#FDFBF7] flex items-center justify-center p-8 text-center border-b-4 border-[#E2D8C3] relative">
+                        <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity"></div>
+                        <h3 class="font-bold serif-font text-2xl leading-snug relative z-10">India's Most Fearless</h3>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-[#9B2C2C] mb-3">Shiv Aroor & Rahul Singh</p>
+                            <p class="text-gray-600 leading-relaxed text-sm">An inspiring collection of true stories of courage, sacrifice, and service by modern Indian military personnel.</p>
+                        </div>
+                        <div class="mt-6 text-[#9B2C2C] font-semibold text-sm group-hover:underline">Explore Book &rarr;</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="mt-16 text-center">
+                <p class="text-sm italic text-gray-500 bg-gray-50 inline-block px-6 py-3 rounded-full border border-gray-200">
+                    Disclosure: This section contains affiliate links. If you purchase through these links, I may earn a small commission at no additional cost to you.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1A202C] text-gray-400 py-8 text-center text-sm">
+        <p>Interactive Analysis based on "The Price of Freedom". Designed for exploration and reflection.</p>
+    </footer>
+
+    <script>
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach((section) => {
+            observer.observe(section);
+        });
+
+        function switchTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            
+            tablinks = evt.currentTarget.parentElement.children;
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" bg-[#2D3748] text-[#E2D8C3]", " text-gray-400 hover:text-[#E2D8C3] hover:bg-[#2D3748]");
+            }
+            
+            document.getElementById(tabName).style.display = "block";
+            
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            
+            evt.currentTarget.className = evt.currentTarget.className.replace(" text-gray-400 hover:text-[#E2D8C3] hover:bg-[#2D3748]", " bg-[#2D3748] text-[#E2D8C3]");
+        }
+
+        const ctx = document.getElementById('worthinessChart').getContext('2d');
+        const worthinessChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Sincere Knowledge (Reading)',
+                    'Active Remembrance (Visiting)',
+                    'Preserving Dignity (Respect)',
+                    'Challenging Untruths (Truth)'
+                ],
+                datasets: [{
+                    data: [25, 25, 25, 25],
+                    backgroundColor: [
+                        '#2D3748',
+                        '#9B2C2C',
+                        '#B7791F',
+                        '#E2D8C3'
+                    ],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 2,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Source Sans Pro', sans-serif",
+                                size: 13
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const descriptions = {
+                                    'Sincere Knowledge (Reading)': 'Moving beyond social media fragments.',
+                                    'Active Remembrance (Visiting)': 'Connecting with physical historical spaces.',
+                                    'Preserving Dignity (Respect)': 'Refusing to mock ancestral sacrifices.',
+                                    'Challenging Untruths (Truth)': 'Educating oneself to counter misinformation.'
+                                };
+                                return ` ${context.label}: ${descriptions[context.label]}`;
+                            }
+                        },
+                        backgroundColor: 'rgba(26, 32, 44, 0.9)',
+                        titleFont: { size: 14, family: "'Source Sans Pro', sans-serif" },
+                        bodyFont: { size: 13, family: "'Source Sans Pro', sans-serif" },
+                        padding: 12,
+                        cornerRadius: 8
+                    }
+                },
+                cutout: '65%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+
+        let chartAnimated = false;
+        const chartObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !chartAnimated) {
+                    worthinessChart.update();
+                    chartAnimated = true;
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        chartObserver.observe(document.querySelector('.chart-container'));
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.remove('bg-[#FDFBF7]/90');
+                nav.classList.add('bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.remove('bg-white/95');
+                nav.classList.add('bg-[#FDFBF7]/90');
+            }
+        });
+    </script>
+</body>
+</html>
